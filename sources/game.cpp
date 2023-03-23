@@ -4,18 +4,18 @@
 #include <stdexcept>
 using namespace std;
 
-#include "../sources/game.hpp"
-#include "../sources/player.hpp"
+#include "game.hpp"
+#include "player.hpp"
 
 namespace ariel
 {
-    Game::Game(Player p1_, Player p2_)
+    Game::Game(Player p1_, Player p2_) : p1(p1_), p2(p2_)
     {
-        this->p1 = p1_;
-        this->p2 = p2_;
     }
     void Game::playTurn()
     {
+        if (p1.stacksize() == "0" || p2.stacksize() == "0")
+            throw std::out_of_range("No turns left to do");
     }
     void Game::printLastTurn()
     {

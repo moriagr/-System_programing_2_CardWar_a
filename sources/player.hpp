@@ -6,7 +6,7 @@
 #include <sstream>
 #include <stdexcept>
 using namespace std;
-
+// #include "card.hpp"
 
 namespace ariel
 {
@@ -16,13 +16,15 @@ namespace ariel
     private:
         int score;
         string name;
-
+        // Card cArr[52];
+        // Add an array that includes all the remaining cards that exists to the player - Im not sure if I need to do this right now or in onther time
     public:
         Player(std::string n);
-        Player();
 
         string stacksize();
         string cardesTaken();
+        string getName();
+        
     };
 }
 #endif

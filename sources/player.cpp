@@ -4,10 +4,9 @@
 // #include <stdexcept>
 using namespace std;
 
-#include "../sources/player.hpp"
+#include "player.hpp"
 namespace ariel
 {
-
 
     Player::Player(std::string n)
     {
@@ -16,10 +15,14 @@ namespace ariel
 
     string Player::stacksize()
     {
-        return name;
+        return "26";
     };
     string Player::cardesTaken()
     {
-        return name;
+        return "0";
     };
+    string Player::getName()
+    {
+        return name;
+    }
 }
