@@ -34,24 +34,14 @@ TEST_CASE("No one played yet")
 
     Game game(p1, p2);
     CHECK_THROWS(game.printLastTurn());
-    CHECK(p1.cardesTaken() == "0");
-    CHECK(p2.cardesTaken() == "0");
-    CHECK(p1.stacksize() == "26");
-    CHECK(p2.stacksize() == "26");
+    CHECK(p1.cardesTaken() == 0);
+    CHECK(p2.cardesTaken() == 0);
+    CHECK(p1.stacksize() == 26);
+    CHECK(p2.stacksize() == 26);
 
-    std::stringstream output;
-    std::streambuf *old_cout = std::cout.rdbuf(output.rdbuf());
-    game.printLog();
-    std::cout.rdbuf(old_cout);
-
-    CHECK(output.str() == "");
-
-    std::stringstream output1;
-    std::streambuf *old_cout1 = std::cout.rdbuf(output1.rdbuf());
-    game.printLog();
-    std::cout.rdbuf(old_cout1);
-
-    CHECK(output1.str() == "");
+    CHECK_THROWS(game.printLog());      // No one played yet so we can't   game.printLog(); prints all the turns played.
+    CHECK_THROWS(game.printLastTurn()); // No one played yet so we can't print the log of the last turn.
+    CHECK_THROWS(game.printWiner());    // No one played yet so there isn't any winner.
 }
 
 // Because playAl using playTurn for the remainig cards
@@ -78,29 +68,13 @@ TEST_CASE("Sombody won")
 
     Game game(p1, p2);
     game.playAll();
-    CHECK((p1.stacksize() == "0" || p2.stacksize() == "0"));
-    CHECK(stoi(p2.cardesTaken()) + stoi(p2.cardesTaken()) == stoi("52"));
+    CHECK((p1.stacksize() == 0 && p2.stacksize() == 0));
+    CHECK(p2.cardesTaken() + p2.cardesTaken() == 52);
 
-    std::stringstream output;
-    std::streambuf *old_cout = std::cout.rdbuf(output.rdbuf());
-    game.printWiner();
-    std::cout.rdbuf(old_cout);
-
-    if (p1.cardesTaken() > p2.cardesTaken())
-    {
-        CHECK(output.str() == p2.getName());
-    }
-    else if (p1.cardesTaken() == p2.cardesTaken())
-    {
-        CHECK(output.str() == p1.getName());
-    }
-    else
-    {
-        CHECK_THROWS(output.str());
-    }
+    CHECK_NOTHROW(game.printWiner());
 }
 
-TEST_CASE("No remaining cards for war")
+TEST_CASE("No remaining cards for war") // Not sure
 {
     Player p1("Alice");
     Player p2("Bob");
@@ -111,33 +85,17 @@ TEST_CASE("No remaining cards for war")
         game.playTurn();
     }
 
-    int cardsTaken_p1 = stoi(p1.cardesTaken());
-    int cardsTaken_p2 = stoi(p2.cardesTaken());
-    int stackSize_p1 = stoi(p1.stacksize());
-    int stackSize_p2 = stoi(p2.stacksize());
+    int cardsTaken_p1 = p1.cardesTaken();
+    int cardsTaken_p2 = p2.cardesTaken();
+    int stackSize_p1 = p1.stacksize();
+    int stackSize_p2 = p2.stacksize();
     int average = (stackSize_p1 + stackSize_p2) / 2;
     // Condition of War:
-    CHECK_THROWS_AS(game.playTurn(), std::out_of_range);
+    CHECK_THROWS(game.playTurn());
 
-    CHECK((p1.stacksize() == "0" || p2.stacksize() == "0"));
-    CHECK(stoi(p2.cardesTaken()) == average + cardsTaken_p2);
-    CHECK(stoi(p1.cardesTaken()) == average + cardsTaken_p1);
+    CHECK((p1.stacksize() == 0 && p2.stacksize() == 0));
+    CHECK(p2.cardesTaken() == average + cardsTaken_p2);
+    CHECK(p1.cardesTaken() == average + cardsTaken_p1);
 
-    std::stringstream output;
-    std::streambuf *old_cout = std::cout.rdbuf(output.rdbuf());
-    game.printWiner();
-    std::cout.rdbuf(old_cout);
-
-    if (p1.cardesTaken() > p2.cardesTaken())
-    {
-        CHECK(output.str() == p2.getName());
-    }
-    else if (p1.cardesTaken() == p2.cardesTaken())
-    {
-        CHECK_THROWS(output.str());
-    }
-    else
-    {
-        CHECK(output.str() == p1.getName());
-    }
+    CHECK_NOTHROW(game.printWiner());
 }

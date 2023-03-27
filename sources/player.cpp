@@ -13,13 +13,13 @@ namespace ariel
         this->name = n;
     };
 
-    string Player::stacksize()
+    int Player::stacksize()
     {
-        return "26";
+        return 26;
     };
-    string Player::cardesTaken()
+    int Player::cardesTaken()
     {
-        return "0";
+        return 0;
     };
     string Player::getName()
     {

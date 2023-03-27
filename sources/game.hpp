@@ -26,6 +26,8 @@ namespace ariel
         void printWiner(); // prints the name of the winning player
         void printLog();   // prints all the turns played one line per turn (same format as void printLastTurn())
         void printStats();
+        Player getP1();
+        Player getP2();
     };
 }
 

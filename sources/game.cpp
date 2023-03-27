@@ -14,8 +14,6 @@ namespace ariel
     }
     void Game::playTurn()
     {
-        if (p1.stacksize() == "0" || p2.stacksize() == "0")
-            throw std::out_of_range("No turns left to do");
     }
     void Game::printLastTurn()
     {
@@ -34,5 +32,14 @@ namespace ariel
     } // prints all the turns played one line per turn (same format as void printLastTurn())
     void Game::printStats()
     {
+    }
+
+        Player Game::getP1()
+    {
+        return p1;
+    }
+        Player Game::getP2()
+    {
+        return p2;
     }
 }

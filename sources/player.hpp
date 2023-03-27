@@ -21,8 +21,8 @@ namespace ariel
     public:
         Player(std::string n);
 
-        string stacksize();
-        string cardesTaken();
+        int stacksize();
+        int cardesTaken();
         string getName();
         
     };
