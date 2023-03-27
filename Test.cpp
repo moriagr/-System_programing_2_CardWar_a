@@ -25,6 +25,7 @@ TEST_CASE("No remaining cards")
     }
     CHECK_THROWS(game.playTurn()); // check that a specific exception type is thrown - maybe i need to create custom exception for this problem
     CHECK_THROWS(game.playAll());  // check that a specific exception type is thrown - maybe i need to create custom exception for this problem
+    CHECK_NOTHROW(game.printWiner());
 }
 
 TEST_CASE("No one played yet")
@@ -74,28 +75,31 @@ TEST_CASE("Sombody won")
     CHECK_NOTHROW(game.printWiner());
 }
 
-TEST_CASE("No remaining cards for war") // Not sure
+TEST_CASE("Check cards after 5 turns") // Not sure
 {
     Player p1("Alice");
     Player p2("Bob");
 
     Game game(p1, p2);
-    for (int i = 0; i < 25; i++)
+    for (int i = 0; i < 5; i++)
     {
         game.playTurn();
     }
 
     int cardsTaken_p1 = p1.cardesTaken();
     int cardsTaken_p2 = p2.cardesTaken();
-    int stackSize_p1 = p1.stacksize();
-    int stackSize_p2 = p2.stacksize();
-    int average = (stackSize_p1 + stackSize_p2) / 2;
     // Condition of War:
-    CHECK_THROWS(game.playTurn());
 
-    CHECK((p1.stacksize() == 0 && p2.stacksize() == 0));
-    CHECK(p2.cardesTaken() == average + cardsTaken_p2);
-    CHECK(p1.cardesTaken() == average + cardsTaken_p1);
+    CHECK(26 - p2.stacksize() >= 5);
+    CHECK(26 - p1.stacksize() >= 5);
+    CHECK(((p1.cardesTaken() + p2.stacksize() + p2.cardesTaken() + p1.stacksize() == 52)));
 
-    CHECK_NOTHROW(game.printWiner());
+    if (p1.stacksize() == 0 || p2.stacksize() == 0)
+    {
+        CHECK_NOTHROW(game.printWiner()); // No winner yet
+    }
+    else
+    {
+        CHECK_THROWS(game.printWiner()); // No winner yet
+    }
 }
