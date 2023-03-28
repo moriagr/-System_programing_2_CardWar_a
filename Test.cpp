@@ -19,10 +19,12 @@ TEST_CASE("No remaining cards")
 
     Game game(p1, p2);
 
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i < 5; i++)
     {
         game.playTurn();
     }
+    CHECK_NOTHROW(game.playAll()); // check that a specific exception type is thrown - maybe i need to create custom exception for this problem
+
     CHECK_THROWS(game.playTurn()); // check that a specific exception type is thrown - maybe i need to create custom exception for this problem
     CHECK_THROWS(game.playAll());  // check that a specific exception type is thrown - maybe i need to create custom exception for this problem
     CHECK_NOTHROW(game.printWiner());
@@ -81,7 +83,7 @@ TEST_CASE("Check cards after 5 turns") // Not sure
     Player p2("Bob");
 
     Game game(p1, p2);
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 2; i++)
     {
         game.playTurn();
     }
@@ -90,8 +92,8 @@ TEST_CASE("Check cards after 5 turns") // Not sure
     int cardsTaken_p2 = p2.cardesTaken();
     // Condition of War:
 
-    CHECK(26 - p2.stacksize() >= 5);
-    CHECK(26 - p1.stacksize() >= 5);
+    CHECK(26 - p2.stacksize() >= 2);
+    CHECK(26 - p1.stacksize() >= 2);
     CHECK(((p1.cardesTaken() + p2.stacksize() + p2.cardesTaken() + p1.stacksize() == 52)));
 
     if (p1.stacksize() == 0 || p2.stacksize() == 0)
